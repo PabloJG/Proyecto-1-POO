@@ -1,9 +1,9 @@
 public class Main {
     public static void main(String[] args){
-        //Matriz prueba = new Matriz();
-        Obstaculos nose = new Obstaculos();
-        Base prueba = new Base();
-        //prueba.setVisible(true);
-
+        Matriz matriz = new Matriz();
+        Obstaculos obstaculos = new Obstaculos(matriz);
+        Base base = new Base(matriz);
+        Amenaza amenaza = new Amenaza(matriz);
+        Recursos recursos = new Recursos(matriz);
     }
 }
