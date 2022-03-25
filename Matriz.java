@@ -1,17 +1,21 @@
 import java.awt.Color;
+import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 
-public class Matriz extends JFrame{
+public class Matriz{
+    JFrame ventana = new JFrame();
+    JPanel boton = new JPanel();
+    JButton siguiente = new JButton("Siguiente");
     JButton bMatriz[][] = new JButton[50][50];
     JPanel panel = new JPanel();
 
     public Matriz(){
         panel.setLayout(new GridLayout(50, 50));
-        this.add(panel);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.add(panel);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         crearMatriz();
     }
 
@@ -21,13 +25,18 @@ public class Matriz extends JFrame{
                 bMatriz[f][c] = new JButton();
                 bMatriz[f][c].setBounds(20, 10, 360, 360);
                 bMatriz[f][c].setBackground(Color.WHITE);
-                bMatriz[f][c].setBorderPainted(false);
-                this.setBounds(300, 20, 850, 710);
+                //bMatriz[f][c].setBorderPainted(false);
+                ventana.setBounds(300, 20, 850, 710);
                 panel.setBounds(300, 20, 850, 710);
                 panel.add(bMatriz[f][c]);
-                panel.setVisible(true);
+                //panel.setVisible(true);
             }
-    }
-    bMatriz[0][5].setBackground(Color.black);
+        }
+        ventana.setVisible(true);
+        boton.setLayout(new GridLayout(1, 1));
+        boton.add(siguiente);
+        siguiente.setBackground(Color.WHITE);
+        ventana.add(boton, BorderLayout.EAST);
+        
     }
 }
