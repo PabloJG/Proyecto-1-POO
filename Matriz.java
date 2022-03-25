@@ -25,11 +25,11 @@ public class Matriz{
                 bMatriz[f][c] = new JButton();
                 bMatriz[f][c].setBounds(20, 10, 360, 360);
                 bMatriz[f][c].setBackground(Color.WHITE);
-                //bMatriz[f][c].setBorderPainted(false);
+                bMatriz[f][c].setBorderPainted(false);
                 ventana.setBounds(300, 20, 850, 710);
                 panel.setBounds(300, 20, 850, 710);
                 panel.add(bMatriz[f][c]);
-                //panel.setVisible(true);
+                panel.setVisible(true);
             }
         }
         ventana.setVisible(true);
