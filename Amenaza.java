@@ -4,14 +4,14 @@ public class Amenaza {
     private int fila;
     private int columna;
     private int cantidad = 0;
-    Matriz amenaza;
+    private static Matriz amenaza;
 
     public Amenaza(Matriz matriz){
         amenaza = matriz;
         pintarAmen();
     }
 
-    public void pintarAmen(){
+    private void pintarAmen(){
         while(cantidad < 5){
             fila = (int) (Math.random()*(48-1)) + 1;
             columna = (int) (Math.random()*(48-1)) + 1;
