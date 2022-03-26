@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 public class Base {
-    List<Integer> random = Arrays.asList(0, 49);
-    Matriz base;
-    Random rand = new Random();
-    private int fila;
-    private int columna;
+    public static List<Integer> random = Arrays.asList(0, 49);
+    private static Matriz base;
+    private Random rand = new Random();
+    public static int fila;
+    public static int columna;
 
     public Base(Matriz matriz){
         base = matriz;
