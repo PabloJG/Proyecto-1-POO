@@ -4,15 +4,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.event.*;
 
-public class Matriz{
+public class Matriz extends JFrame implements ActionListener{
     private static JFrame ventana = new JFrame();
     private static JPanel boton = new JPanel();
+    AgenteBase[] move;
     private static JButton siguiente = new JButton("Siguiente");
     public static JButton bMatriz[][] = new JButton[50][50];
     private static JPanel panel = new JPanel();
 
-    public Matriz(){
+    public Matriz(AgenteBase[] mover){
+        move = mover;
+        siguiente.addActionListener(this);
         panel.setLayout(new GridLayout(50, 50));
         ventana.add(panel);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +43,9 @@ public class Matriz{
         ventana.add(boton, BorderLayout.EAST);
         
     }
-    private void siguiente(AgenteBase mov){
-
-    }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == siguiente) {
+            move[0].mover();
+        }
+      }
 }
