@@ -8,10 +8,10 @@ public class Main {
         Recursos recursos = new Recursos();
 
         for(int i = 0; i<10; i++){
-            agentes[i] = new Defensores(matriz, agentes);
+            agentes[i] = new Defensores(agentes);
         }
         for(int j = 10; j<20; j++){
-            agentes[j] = new Recolectores(matriz, agentes);
+            agentes[j] = new Recolectores(agentes);
         }
     }
 }
