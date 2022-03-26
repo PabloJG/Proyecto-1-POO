@@ -4,14 +4,14 @@ public class Recursos{
     private int fila;
     private int columna;
     private int cantidad = 0;
-    Matriz recursos;
+    private static Matriz recursos;
 
     public Recursos(Matriz matriz){
         recursos = matriz;
         pintarRec();
     }
 
-    public void pintarRec(){
+    private void pintarRec(){
         while(cantidad < 5){
             fila = (int) (Math.random()*(48-1)) + 1;
             columna = (int) (Math.random()*(48-1)) + 1;
