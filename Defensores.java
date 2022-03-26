@@ -1,10 +1,10 @@
 public class Defensores extends AgenteBase{
-    private Matriz agente;
     AgenteBase[] hormigaD;
 
-    public Defensores(Matriz matriz, AgenteBase[] defensoras){
-        hormigaD = defensoras;
-        agente = matriz;
+    public Defensores(AgenteBase[] defensores){
+        hormigaD = defensores;
+        tipo = "defensor";
+        pintar();
     }
 
     public void Atacar(){
