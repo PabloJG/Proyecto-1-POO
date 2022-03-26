@@ -4,14 +4,14 @@ public class Obstaculos {
     private int fila;
     private int columna;
     private int cantidad = 0;
-    Matriz obstaculo;
+    private static Matriz obstaculo;
 
     public Obstaculos(Matriz matriz){
         obstaculo = matriz;
         pintarObs();
     }
 
-    public void pintarObs(){
+    private void pintarObs(){
         while(cantidad < 5){
             fila = (int) (Math.random()*(47-2)) + 2;
             columna = (int) (Math.random()*(47-2)) + 2;
