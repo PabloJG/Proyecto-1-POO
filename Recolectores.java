@@ -4,8 +4,9 @@ public class Recolectores extends AgenteBase{
     Matriz agente;
     AgenteBase[] hormigaR;
 
-    public Recolectores(Matriz matriz, AgenteBase[] recolectoras){
-        hormigaR = recolectoras;
-        agente = matriz;
+    public Recolectores(AgenteBase[] recolectores){
+        hormigaR = recolectores;
+        tipo = "recolector";
+        pintar();
     }
 }
