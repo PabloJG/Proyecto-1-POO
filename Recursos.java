@@ -4,10 +4,8 @@ public class Recursos{
     private int fila;
     private int columna;
     private int cantidad = 0;
-    private static Matriz recursos;
 
-    public Recursos(Matriz matriz){
-        recursos = matriz;
+    public Recursos(){
         pintarRec();
     }
 
@@ -15,10 +13,10 @@ public class Recursos{
         while(cantidad < 5){
             fila = (int) (Math.random()*(48-1)) + 1;
             columna = (int) (Math.random()*(48-1)) + 1;
-            recursos.bMatriz[fila][columna].setBackground(Color.PINK);
-            recursos.bMatriz[fila][columna+1].setBackground(Color.PINK);
-            recursos.bMatriz[fila+1][columna].setBackground(Color.PINK);
-            recursos.bMatriz[fila+1][columna+1].setBackground(Color.PINK);
+            Matriz.bMatriz[fila][columna].setBackground(Color.PINK);
+            Matriz.bMatriz[fila][columna+1].setBackground(Color.PINK);
+            Matriz.bMatriz[fila+1][columna].setBackground(Color.PINK);
+            Matriz.bMatriz[fila+1][columna+1].setBackground(Color.PINK);
             cantidad++;
         }
     }
