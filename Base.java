@@ -16,6 +16,6 @@ public class Base {
     }
 
     public static void pintarBase(){
-        Matriz.bMatriz[random.get(fila)][random.get(columna)].setBackground(Color.GREEN);
+        Matriz.bMatriz[random.get(fila)][random.get(columna)].setBackground(new java.awt.Color(144, 79, 22));
     }
 }
