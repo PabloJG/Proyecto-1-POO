@@ -1,9 +1,12 @@
+import java.awt.Color;
+
 public class Defensores extends AgenteBase{
-    AgenteBase[] hormigaD;
+    private AgenteBase[] hormigaD;
+    Color tipo;
 
     public Defensores(AgenteBase[] defensores){
         hormigaD = defensores;
-        tipo = "defensor";
+        color = new java.awt.Color(0, 0, 0);
         pintar();
     }
 
