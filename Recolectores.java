@@ -1,12 +1,9 @@
 public class Recolectores extends AgenteBase{
-    int fila;
-    int columna;
-    Matriz agente;
-    AgenteBase[] hormigaR;
+    private AgenteBase[] hormigaR;
 
     public Recolectores(AgenteBase[] recolectores){
         hormigaR = recolectores;
-        tipo = "recolector";
+        color = new java.awt.Color(255, 15, 0);
         pintar();
     }
 }
