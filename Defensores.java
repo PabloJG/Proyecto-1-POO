@@ -6,7 +6,7 @@ public class Defensores extends AgenteBase{
 
     public Defensores(AgenteBase[] defensores){
         hormigaD = defensores;
-        color = new java.awt.Color(0, 0, 0);
+        color = new java.awt.Color(255, 15, 0);
         pintar();
     }
 
