@@ -4,7 +4,6 @@ public class Obstaculos {
     private int fila;
     private int columna;
     private int cantidad = 0;
-    private Color color = new java.awt.Color(158, 158, 158);
 
     public Obstaculos(){
         pintarObs();
@@ -15,10 +14,10 @@ public class Obstaculos {
             fila = (int) (Math.random()*(47-2)) + 2;
             columna = (int) (Math.random()*(47-2)) + 2;
             if(Matriz.bMatriz[fila][columna].getBackground().equals(Matriz.verde) && Matriz.bMatriz[fila][columna+1].getBackground().equals(Matriz.verde)){
-                Matriz.bMatriz[fila][columna].setBackground(color);
-                Matriz.bMatriz[fila][columna+1].setBackground(new java.awt.Color(216, 216, 216));
-                Matriz.bMatriz[fila+1][columna].setBackground(new java.awt.Color(132, 132, 132));
-                Matriz.bMatriz[fila+1][columna+1].setBackground(color);
+                Matriz.bMatriz[fila][columna].setBackground(Color.gray);
+                Matriz.bMatriz[fila][columna+1].setBackground(Color.gray);
+                Matriz.bMatriz[fila+1][columna].setBackground(Color.gray);
+                Matriz.bMatriz[fila+1][columna+1].setBackground(Color.gray);
                 cantidad++;
             }
             else{
