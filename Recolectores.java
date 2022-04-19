@@ -3,7 +3,7 @@ public class Recolectores extends AgenteBase{
 
     public Recolectores(AgenteBase[] recolectores){
         hormigaR = recolectores;
-        color = new java.awt.Color(255, 15, 0);
+        color = new java.awt.Color(0, 0, 0);
         pintar();
     }
 }
