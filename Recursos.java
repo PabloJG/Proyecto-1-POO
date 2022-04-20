@@ -4,9 +4,11 @@ public class Recursos{
     private int fila;
     private int columna;
     public static int cantidad = 0;
+    public int vida;
 
     public Recursos(){
         pintarRec();
+        vida = 10;
     }
 
     private void pintarRec(){
