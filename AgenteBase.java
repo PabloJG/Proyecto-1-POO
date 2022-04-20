@@ -8,6 +8,10 @@ public class AgenteBase {
     private int fila;
     public Color color;
     private int columna;
+    int filaC;
+    int columnac;
+    int coordFAm;
+    int coordCAm;
     int ultimaposF;
     int ultimaposC;
     private String posicion;
@@ -18,11 +22,19 @@ public class AgenteBase {
     int posCt;
     int posF;
     int posC;
+    boolean obs;
+    boolean amen;
+    boolean recur;
+    boolean llevaR;
     
     public AgenteBase(){
         posicion = posiciones[pos];
         fila = (int) (Math.random()*(48-1)) + 1;
         columna = (int) (Math.random()*(48-1)) + 1;
+        obs = false;
+        amen = false;
+        recur = false;
+        llevaR = false;
     }
 
     public void pintar(){
@@ -36,49 +48,91 @@ public class AgenteBase {
     }
 
     public void mover(AgenteBase[] hormiga){
-        Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna].setBackground(new java.awt.Color(0, 135, 6));
        // Base.pintarBase();
         System.out.println(hormiga[Matriz.i] + hormiga[Matriz.i].posicion);
         ultimaposF = hormiga[Matriz.i].fila;
         ultimaposC = hormiga[Matriz.i].columna;
         System.out.println(ultimaposF + " " + ultimaposC);
         buscarRecurso(hormiga);
-        if(hormiga[Matriz.i].posicion.equals("ARRIBA")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna].setBackground(color);
-            fila++;
+        System.out.println(hormiga[Matriz.i].amen);
+        System.out.println(Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna].getBackground());
+        if(hormiga[Matriz.i].amen == true){
+            if(Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna].getBackground().equals(Color.red)){
+                System.out.println("entro");
+                if(coordFAm < hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna-1].setBackground(color);
+                }
+                else if(coordFAm > hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna+1].setBackground(color);
+                }
+                else if(coordFAm > hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna-1].setBackground(color);
+                }
+                else if(coordFAm < hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna+1].setBackground(color);
+                }
+            }
+            else{
+                if(coordFAm < hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna+1].setBackground(color);
+                }
+                else if(coordFAm > hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna-1].setBackground(color);
+                }
+                else if(coordFAm > hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna+1].setBackground(color);
+                }
+                else if(coordFAm < hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
+                    Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna-1].setBackground(color);
+                }
+            }
+
         }
-        else if(hormiga[Matriz.i].posicion.equals("ABAJO")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna].setBackground(color);
-            fila--;
+        else if(hormiga[Matriz.i].obs == true){
+
         }
-        else if(hormiga[Matriz.i].posicion.equals("IZQUIERDA")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna-1].setBackground(color);
-            columna--;
+        else if(hormiga[Matriz.i].recur == true){
+
         }
-        else if(hormiga[Matriz.i].posicion.equals("DERECHA")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna+1].setBackground(color);
-            columna++;
-        }  
-        else if(hormiga[Matriz.i].posicion.equals("ARI")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna-1].setBackground(color);
-            fila--;
-            columna--;
+        else{
+            if(hormiga[Matriz.i].posicion.equals("ARRIBA")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna].setBackground(color);
+                fila++;
+            }
+            else if(hormiga[Matriz.i].posicion.equals("ABAJO")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna].setBackground(color);
+                fila--;
+            }
+            else if(hormiga[Matriz.i].posicion.equals("IZQUIERDA")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna-1].setBackground(color);
+                columna--;
+            }
+            else if(hormiga[Matriz.i].posicion.equals("DERECHA")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].columna+1].setBackground(color);
+                columna++;
+            }  
+            else if(hormiga[Matriz.i].posicion.equals("ARI")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna-1].setBackground(color);
+                fila--;
+                columna--;
+            }
+            else if(hormiga[Matriz.i].posicion.equals("ARD")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna+1].setBackground(color);
+                fila--;
+                columna++;
+            }
+            else if(hormiga[Matriz.i].posicion.equals("ABI")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna-1].setBackground(color);
+                fila++;
+                columna--;
+            }
+            else if(hormiga[Matriz.i].posicion.equals("ABD")){
+                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna+1].setBackground(color);
+                fila++;
+                columna++;
+            }
         }
-        else if(hormiga[Matriz.i].posicion.equals("ARD")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna+1].setBackground(color);
-            fila--;
-            columna++;
-        }
-        else if(hormiga[Matriz.i].posicion.equals("ABI")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna-1].setBackground(color);
-            fila++;
-            columna--;
-        }
-        else if(hormiga[Matriz.i].posicion.equals("ABD")){
-            Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna+1].setBackground(color);
-            fila++;
-            columna++;
-        }
+        Matriz.bMatriz[hormiga[Matriz.i].ultimaposF][hormiga[Matriz.i].ultimaposC].setBackground(new java.awt.Color(0, 135, 6));
         pos = rand.nextInt(posiciones.length);
         posicion = posiciones[pos];
     }
@@ -89,25 +143,24 @@ public class AgenteBase {
         posFt = posF - 3;
         posCt = posC -3;
         System.out.println("Fila otr " + hormiga[Matriz.i].posFt + "Fila "+ hormiga[Matriz.i].posF);
-        boolean obs = false;
-        boolean amen = false;
-        boolean recur = false;
         while(posFt <= posF+3 ){
             System.out.println(hormiga[Matriz.i].posFt + " " + hormiga[Matriz.i].posC);
             if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posC].getBackground() != Matriz.verde){
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].columna].getBackground().equals(Color.gray))
                 {  
-                    obs = true;
+                    hormiga[Matriz.i].obs = true;
                     System.out.println("Hay obs");
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].columna].getBackground().equals(Color.yellow))
                 {
-                    amen = true;
+                    hormiga[Matriz.i].amen = true;
                     System.out.println("Hay amen");
+                    coordFAm = posFt;
+                    coordCAm = columna;
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].columna].getBackground().equals(Color.MAGENTA))
                 {  
-                    recur = true;
+                    hormiga[Matriz.i].recur = true;
                     System.out.println("Hay rec");
                 }
             }
@@ -119,17 +172,19 @@ public class AgenteBase {
             if(Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].posCt].getBackground() != Matriz.verde){
                 if(Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].posCt].getBackground().equals(Color.gray))
                 {  
-                    obs = true;
+                    hormiga[Matriz.i].obs = true;
                     System.out.println("Hay obs");
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].posCt].getBackground().equals(Color.yellow))
                 {
-                    amen = true;
+                    hormiga[Matriz.i].amen = true;
                     System.out.println("Hay amen");
+                    coordFAm = fila;
+                    coordCAm = posCt;
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].fila][hormiga[Matriz.i].posCt].getBackground().equals(Color.MAGENTA))
                 {  
-                    recur = true;
+                    hormiga[Matriz.i].recur = true;
                     System.out.println("Hay rec");
                 }
             }
@@ -142,17 +197,19 @@ public class AgenteBase {
             if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground() != Matriz.verde){
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.gray))
                 {  
-                    obs = true;
+                    hormiga[Matriz.i].obs = true;
                     System.out.println("Hay obs");
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.yellow))
                 {
-                    amen = true;
+                    hormiga[Matriz.i].amen = true;
                     System.out.println("Hay amen");
+                    coordFAm = posFt;
+                    coordCAm = posCt;
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.MAGENTA))
                 {  
-                    recur = true;
+                    hormiga[Matriz.i].recur = true;
                     System.out.println("Hay rec");
                 }
             }
@@ -162,31 +219,33 @@ public class AgenteBase {
         posCt = posC + 3;
         posFt = posF -3;
         System.out.println("Diagonales");
-        while(posCt <= posC-3 && posFt < posF+3 ){
+        while(posCt >= posC-3 && posFt <= posF+3 ){
             System.out.println(hormiga[Matriz.i].posFt + " " + hormiga[Matriz.i].posCt);
             if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground() != Matriz.verde){
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.gray))
                 {  
-                    obs = true;
+                    hormiga[Matriz.i].obs = true;
                     System.out.println("Hay obs");
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.yellow))
                 {
-                    amen = true;
+                    hormiga[Matriz.i].amen = true;
                     System.out.println("Hay amen");
+                    coordFAm = posFt;
+                    coordCAm = posCt;
                 }
                 if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.MAGENTA))
                 {  
-                    recur = true;
+                    hormiga[Matriz.i].recur = true;
                     System.out.println("Hay rec");
                 }
             }
             posCt--;
             posFt++;
         }
-        posCt = posC + 2;
+        /*posCt = posC + 2;
         posFt = posF -3;
-        /*
+        
         while(posFt < posF ){
             System.out.println(hormiga[Matriz.i].posFt + " " + hormiga[Matriz.i].posCt);
             if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground() != Matriz.verde){
