@@ -17,7 +17,7 @@ public class AgenteBase {
     private String posicion;
     private Random rand = new Random();
     private String[] posiciones = {"ARRIBA","ABAJO","IZQUIERDA","DERECHA","ARI","ARD","ABI","ABD"};
-    private int pos = rand.nextInt(posiciones.length);
+    private int pos;
     int inicioF;
     int inicioC;
     int maxF;
@@ -28,7 +28,7 @@ public class AgenteBase {
     boolean llevaR;
     
     public AgenteBase(){
-        posicion = posiciones[pos];
+        posicion = posiciones[0];
         fila = (int) (Math.random()*(48-1)) + 1;
         columna = (int) (Math.random()*(48-1)) + 1;
         ultimaposF = 0;
@@ -39,18 +39,19 @@ public class AgenteBase {
         llevaR = false;
     }
 
-    public void pintar(){
+    public void pintarH(){
         System.out.println(fila + " " + columna);
-        if(Matriz.bMatriz[fila][columna].getBackground().equals(Matriz.verde))
-            Matriz.bMatriz[fila][columna].setBackground(color);
-        else{
+        while(Matriz.bMatriz[fila][columna].getBackground() != Matriz.verde){
             fila = (int) (Math.random()*(48-1)) + 1;
             columna = (int) (Math.random()*(48-1)) + 1;
         }
+        Matriz.bMatriz[fila][columna].setBackground(color);
     }
 
-    public void mover(AgenteBase[] hormiga){
-        System.out.println("Aqui " + hormiga[Matriz.i].fila + " " + hormiga[Matriz.i].columna);
+    public void mover(AgenteBase[] hormiga){ //Se mueven una por una las hormigas
+        System.out.println("\nAqui " + hormiga[Matriz.i].fila + " " + hormiga[Matriz.i].columna);
+        pos = rand.nextInt(posiciones.length); 
+        posicion = posiciones[pos]; //Se selecciona aleatoriamente la direccion a la que se dirige
         buscarRecursos(hormiga);
         if(hormiga[Matriz.i].amen == true)
             amenEncont(hormiga);
@@ -58,88 +59,125 @@ public class AgenteBase {
             obsEncont(hormiga);
         else if(hormiga[Matriz.i].recur == true)
             recEncont(hormiga);
-        else
-            moverAleatorio(hormiga);
+        else if(hormiga[Matriz.i].llevaR == true)
+            ;
+        else{
+            System.out.println("aleatorio");
+            moverPosiciones(hormiga);
+        }
+        //La posicion donde estaba anteriormente la hormiga se pone de color verde para no dejar un rastro
         Matriz.bMatriz[hormiga[Matriz.i].ultimaposF][hormiga[Matriz.i].ultimaposC].setBackground(new java.awt.Color(0, 135, 6));
-        pos = rand.nextInt(posiciones.length);
-        posicion = posiciones[pos];
+        amen = false;
+        obs = false;
+        recur = false;
     }
 
-    public void buscarRecursos(AgenteBase[] hormiga){
+    private void buscarRecursos(AgenteBase[] hormiga){
         maxF = hormiga[Matriz.i].fila;
         maxC = hormiga[Matriz.i].columna;
         inicioF = maxF - 3;
-        verAA(hormiga);
+        verAA(hormiga); //ve hacia arriba y abajo
         System.out.println("Izquierda y derecha");
         inicioC = maxC -3;
-        verID(hormiga);
+        verID(hormiga); //ve hacia la izquierda y derecha
         System.out.println("Diagonal de derecha abajo a izquierda");
         inicioC = maxC - 3;
         inicioF = maxF -3;
-        verDDAbI(hormiga);
+        verDDAbI(hormiga); //ve en diagonal de la derecha inferior a la izquierda superior
         System.out.println("Diagonal de derecha arriba a izquierda");
         inicioC = maxC + 3;
         inicioF = maxF -3;
-        verDDArI(hormiga);
-        
-        /*posCt = posC + 2;
-        posFt = posF -3;
-        
-        while(posFt < posF ){
-            System.out.println(hormiga[Matriz.i].posFt + " " + hormiga[Matriz.i].posCt);
-            if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground() != Matriz.verde){
-                if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.gray))
-                {  
-                    obs = true;
-                    System.out.println("Hay obs");
-                }
-                if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.yellow))
-                {
-                    amen = true;
-                    System.out.println("Hay amen");
-                }
-                if(Matriz.bMatriz[hormiga[Matriz.i].posFt][hormiga[Matriz.i].posCt].getBackground().equals(Color.MAGENTA))
-                {  
-                    recur = true;
-                    System.out.println("Hay rec");
-                }
-            }
-            posCt--;
-            posFt++;
-        }
-        */
+        verDDArI(hormiga); //ve en diagonal de la derecha superior a la izquierda inferior
     }
 
     public void amenEncont(AgenteBase[] hormiga){
         hormiga[Matriz.i].ultimaposF = hormiga[Matriz.i].fila;
         hormiga[Matriz.i].ultimaposC = hormiga[Matriz.i].columna;
         if(hormiga[Matriz.i].color.equals(color.red)){
-            System.out.println("entro");
-            if(coordFAm < hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna-1].setBackground(color);
+            System.out.println("entro roja");
+            if(coordCAm > hormiga[Matriz.i].columna && coordFAm == hormiga[Matriz.i].fila){
+                posicion = posiciones[3];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
-            else if(coordFAm > hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna+1].setBackground(color);
+            else if(coordCAm < hormiga[Matriz.i].columna && coordFAm == hormiga[Matriz.i].fila){
+                posicion = posiciones[2];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm > hormiga[Matriz.i].fila && coordCAm == hormiga[Matriz.i].columna){
+                posicion = posiciones[1];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm < hormiga[Matriz.i].fila && coordCAm == hormiga[Matriz.i].columna){
+                posicion = posiciones[0];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
             else if(coordFAm > hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna-1].setBackground(color);
+                posicion = posiciones[6];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm > hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
+                posicion = posiciones[7];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm < hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
+                posicion = posiciones[4];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
             else if(coordFAm < hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna+1].setBackground(color);
+                posicion = posiciones[5];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
+            
         }
         else{
-            if(coordFAm < hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna+1].setBackground(color);
+            System.out.println("entro negra");
+            if(coordCAm > hormiga[Matriz.i].columna && coordFAm == hormiga[Matriz.i].fila){
+                posicion = posiciones[2];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
-            else if(coordFAm > hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna-1].setBackground(color);
+            else if(coordCAm < hormiga[Matriz.i].columna && coordFAm == hormiga[Matriz.i].fila){
+                posicion = posiciones[3];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm > hormiga[Matriz.i].fila && coordCAm == hormiga[Matriz.i].columna){
+                posicion = posiciones[0];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm < hormiga[Matriz.i].fila && coordCAm == hormiga[Matriz.i].columna){
+                posicion = posiciones[1];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
             else if(coordFAm > hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila-1][hormiga[Matriz.i].columna+1].setBackground(color);
+                posicion = posiciones[5];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm > hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
+                posicion = posiciones[4];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
+            }
+            else if(coordFAm < hormiga[Matriz.i].fila && coordCAm < hormiga[Matriz.i].columna){
+                posicion = posiciones[7];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
             else if(coordFAm < hormiga[Matriz.i].fila && coordCAm > hormiga[Matriz.i].columna){
-                Matriz.bMatriz[hormiga[Matriz.i].fila+1][hormiga[Matriz.i].columna-1].setBackground(color);
+                posicion = posiciones[6];
+                System.out.println(hormiga[Matriz.i].posicion);
+                moverPosiciones(hormiga);
             }
         }
     }
@@ -154,7 +192,7 @@ public class AgenteBase {
         hormiga[Matriz.i].ultimaposC = hormiga[Matriz.i].columna;
     }
 
-    public void moverAleatorio(AgenteBase[] hormiga){
+    public void moverPosiciones(AgenteBase[] hormiga){
         hormiga[Matriz.i].ultimaposF = hormiga[Matriz.i].fila;
         hormiga[Matriz.i].ultimaposC = hormiga[Matriz.i].columna;
         if(hormiga[Matriz.i].posicion.equals("ARRIBA")){
@@ -208,7 +246,7 @@ public class AgenteBase {
         }
     }
 
-    public int rangoValido(int valor){
+    public int rangoValido(int valor){ //No permite que ningun valor se salga de la matriz
         if(valor < 0)
             valor = 0;
         else if(valor > 49)
@@ -226,13 +264,13 @@ public class AgenteBase {
                     hormiga[Matriz.i].obs = true;
                     System.out.println("Hay obs");
                 }
-                if(Matriz.bMatriz[hormiga[Matriz.i].inicioF][hormiga[Matriz.i].columna].getBackground().equals(Color.yellow)){
+                else if(Matriz.bMatriz[hormiga[Matriz.i].inicioF][hormiga[Matriz.i].columna].getBackground().equals(Color.yellow)){
                     hormiga[Matriz.i].amen = true;
                     System.out.println("Hay amen");
                     coordFAm = inicioF;
                     coordCAm = columna;
                 }
-                if(Matriz.bMatriz[hormiga[Matriz.i].inicioF][hormiga[Matriz.i].columna].getBackground().equals(Color.MAGENTA)){  
+                else if(Matriz.bMatriz[hormiga[Matriz.i].inicioF][hormiga[Matriz.i].columna].getBackground().equals(Color.MAGENTA)){  
                     hormiga[Matriz.i].recur = true;
                     System.out.println("Hay rec");
                 }
