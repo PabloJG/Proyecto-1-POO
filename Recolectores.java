@@ -6,6 +6,6 @@ public class Recolectores extends AgenteBase{
     public Recolectores(AgenteBase[] recolectores){
         hormigaR = recolectores;
         color = Color.black;
-        pintar();
+        pintarH();
     }
 }
