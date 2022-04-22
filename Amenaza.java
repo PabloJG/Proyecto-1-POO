@@ -13,7 +13,7 @@ public class Amenaza {
     }
 
     private void pintarAmen(){
-        while(cantidadA < 15){
+        while(cantidadA < 5){
             fila = (int) (Math.random()*(48-1)) + 1;
             columna = (int) (Math.random()*(48-1)) + 1;
             if(Matriz.bMatriz[fila][columna].getBackground().equals(Matriz.verde) && Matriz.bMatriz[fila][columna+1].getBackground().equals(Matriz.verde) && Matriz.bMatriz[fila+1][columna+1].getBackground().equals(Matriz.verde) && Matriz.bMatriz[fila+1][columna].getBackground().equals(Matriz.verde)){
