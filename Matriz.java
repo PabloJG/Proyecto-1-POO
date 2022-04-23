@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.awt.Color;
 
 public class Matriz implements ActionListener{
-    public static int i=0;
+    public static int nHormiga=0;
     public static Color verde = new java.awt.Color(0, 135, 6);
     private static JFrame ventana = new JFrame();
     private static JPanel boton = new JPanel();
@@ -48,10 +48,10 @@ public class Matriz implements ActionListener{
     }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == siguiente) {
-            i = 0;
-            while(i<20){
-                move[i].mover(move); //Utiliza el metodo mover de la clase AgenteBase que mueve las hormigas
-                i++;
+            nHormiga = 0;
+            while(nHormiga<20){
+                move[nHormiga].mover(move); //Utiliza el metodo mover de la clase AgenteBase que mueve las hormigas
+                nHormiga++;
             }
         }
       }
