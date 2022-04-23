@@ -3,17 +3,35 @@ public class IniciarComp {
     private Matriz matriz;
     private Obstaculos obstaculos;
     private Base base;
-    private Amenaza amenazas;
-    private Recursos recursos;
+    public static Amenaza[] amenazas;
+    public static Recursos[] recursos;
+    public static Amenaza amenaza = new Amenaza();
+    public static Recursos recurso = new Recursos();
 
     IniciarComp(){
+        amenazas = new Amenaza[10];
         agentes = new AgenteBase[20];
         matriz = new Matriz(agentes);
         obstaculos = new Obstaculos();
         base = new Base();
-        amenazas = new Amenaza();
-        recursos = new Recursos();
+        recursos = new Recursos[10];
+        IniciarAmenaza();
+        IniciarRecurso();
         IniciarAgentes();
+    }
+
+    private void IniciarAmenaza(){
+        for(int i = 0; i<10; i++){
+            amenazas[i] = new Amenaza(amenazas);
+            amenaza.guardar();
+        }
+    }
+
+    private void IniciarRecurso(){
+        for(int i = 0; i<10; i++){
+            recursos[i] = new Recursos(recursos);
+            recurso.guardar();
+        }
     }
 
     private void IniciarAgentes(){
