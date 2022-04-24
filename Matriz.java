@@ -49,7 +49,7 @@ public class Matriz implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == siguiente) {
             nHormiga = 0;
-            while(nHormiga<20){
+            while(nHormiga<30){
                 move[nHormiga].mover(move); //Utiliza el metodo mover de la clase AgenteBase que mueve las hormigas
                 nHormiga++;
             }
