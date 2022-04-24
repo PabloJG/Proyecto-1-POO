@@ -1,21 +1,19 @@
 import java.util.Random;
-
-import javax.swing.JButton;
-
 import java.awt.Color;
 
 public class AgenteBase {
-    private int fila;
+    int fila;
     public Color color;
-    private int columna;
-    Amenaza[] amenEncontr = IniciarComp.amenazas;
+    int columna;
     Amenaza amenaza = IniciarComp.amenaza;
-    Recursos[] recEncontr = IniciarComp.recursos;
     Recursos recurso = IniciarComp.recurso;
+    Obstaculos obstaculo = IniciarComp.obstaculo;
     int filaC;
     int columnac;
     int coordFAm;
     int coordCAm;
+    int coordFOb;
+    int coordCOb;
     int coordFRec;
     int coordCRec;
     int ultimaposF;
@@ -55,21 +53,22 @@ public class AgenteBase {
     }
 
     public void mover(AgenteBase[] hormiga){ //Se mueven una por una las hormigas
-        System.out.println("\nAqui " + hormiga[Matriz.nHormiga].fila + " " + hormiga[Matriz.nHormiga].columna);
-        Base.pintarBase();
+        Base.pintarBase(); //Se realiza para que si una hormiga entra en la base no se borre 
+        //Obstaculos.obstac();
         pos = rand.nextInt(posiciones.length); 
         posicion = posiciones[pos]; //Se selecciona aleatoriamente la direccion a la que se dirige
         buscarRecursos(hormiga);
         if(hormiga[Matriz.nHormiga].amen == true)
             amenEncont(hormiga);
+        else if(hormiga[Matriz.nHormiga].llevaR == true){
+            System.out.println("hormiga con recurso" + hormiga[Matriz.nHormiga].llevaR);
+            llevarRec(hormiga);
+        }
         else if(hormiga[Matriz.nHormiga].obs == true)
             obsEncont(hormiga);
         else if(hormiga[Matriz.nHormiga].recur == true)
             recEncont(hormiga);
-        else if(hormiga[Matriz.nHormiga].llevaR == true)
-            llevarRec(hormiga);
         else{
-            System.out.println("aleatorio");
             moverPosiciones(hormiga);
         }
         amen = false;
@@ -104,7 +103,7 @@ public class AgenteBase {
                 posicion = posiciones[3];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila && coordCAm == hormiga[Matriz.nHormiga].columna+1)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -112,7 +111,7 @@ public class AgenteBase {
                 posicion = posiciones[2];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila && coordCAm == hormiga[Matriz.nHormiga].columna-1)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -120,7 +119,7 @@ public class AgenteBase {
                 posicion = posiciones[1];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila+1 && coordCAm == hormiga[Matriz.nHormiga].columna)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -128,7 +127,7 @@ public class AgenteBase {
                 posicion = posiciones[0];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila-1 && coordCAm == hormiga[Matriz.nHormiga].columna)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -136,7 +135,7 @@ public class AgenteBase {
                 posicion = posiciones[6];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila+1 && coordCAm == hormiga[Matriz.nHormiga].columna-1)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -144,7 +143,7 @@ public class AgenteBase {
                 posicion = posiciones[7];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila+1 && coordCAm == hormiga[Matriz.nHormiga].columna+1)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -152,7 +151,7 @@ public class AgenteBase {
                 posicion = posiciones[4];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila-1 && coordCAm == hormiga[Matriz.nHormiga].columna-1)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -160,7 +159,7 @@ public class AgenteBase {
                 posicion = posiciones[5];
                 System.out.println("Hay amen" + coordFAm + coordCAm);
                 if(coordFAm == hormiga[Matriz.nHormiga].fila-1 && coordCAm == hormiga[Matriz.nHormiga].columna+1)
-                    amenaza.ataca(amenEncontr, coordFAm, coordCAm);
+                    amenaza.ataca(coordFAm, coordCAm);
                 else
                     moverPosiciones(hormiga);
             }
@@ -214,6 +213,8 @@ public class AgenteBase {
     public void obsEncont(AgenteBase[] hormiga){
         hormiga[Matriz.nHormiga].ultimaposF = hormiga[Matriz.nHormiga].fila;
         hormiga[Matriz.nHormiga].ultimaposC = hormiga[Matriz.nHormiga].columna;
+        obstaculo.posiciones(coordFOb, coordCAm, hormiga[Matriz.nHormiga].fila, hormiga[Matriz.nHormiga].columna, hormiga);
+        Matriz.bMatriz[hormiga[Matriz.nHormiga].obstaculo.moveF][hormiga[Matriz.nHormiga].obstaculo.moveC].setBackground(color);
     }
 
     public void llevarRec(AgenteBase[] hormiga){
@@ -223,7 +224,7 @@ public class AgenteBase {
             hormiga[Matriz.nHormiga].ultimaposC = hormiga[Matriz.nHormiga].columna;
             if(BColumna > hormiga[Matriz.nHormiga].columna && BFila == hormiga[Matriz.nHormiga].fila){
                 posicion = posiciones[3];
-                if(BFila == hormiga[Matriz.nHormiga].fila && BColumna == hormiga[Matriz.nHormiga].columna+1 && hormiga[Matriz.nHormiga].llevaR == true)
+                if(BFila == hormiga[Matriz.nHormiga].fila && BColumna == hormiga[Matriz.nHormiga].columna+1)
                     hormiga[Matriz.nHormiga].llevaR = false;
                 else
                     moverPosiciones(hormiga);
@@ -277,6 +278,7 @@ public class AgenteBase {
                 else
                     moverPosiciones(hormiga);
             }
+            recur = false;
 
     }
 
@@ -288,7 +290,7 @@ public class AgenteBase {
                 posicion = posiciones[3];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila && coordCRec == hormiga[Matriz.nHormiga].columna+1)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -296,7 +298,7 @@ public class AgenteBase {
                 posicion = posiciones[2];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila && coordCRec == hormiga[Matriz.nHormiga].columna-1)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -304,7 +306,7 @@ public class AgenteBase {
                 posicion = posiciones[1];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila+1 && coordCRec == hormiga[Matriz.nHormiga].columna)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -312,7 +314,7 @@ public class AgenteBase {
                 posicion = posiciones[0];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila-1 && coordCRec == hormiga[Matriz.nHormiga].columna)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -320,7 +322,7 @@ public class AgenteBase {
                 posicion = posiciones[6];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila+1 && coordCRec == hormiga[Matriz.nHormiga].columna-1)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -328,7 +330,7 @@ public class AgenteBase {
                 posicion = posiciones[7];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila+1 && coordCRec == hormiga[Matriz.nHormiga].columna+1)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -336,7 +338,7 @@ public class AgenteBase {
                 posicion = posiciones[4];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila-1 && coordCRec == hormiga[Matriz.nHormiga].columna-1)
-                recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -344,7 +346,7 @@ public class AgenteBase {
                 posicion = posiciones[5];
                 System.out.println("Hay rec" + coordFRec + coordCRec);
                 if(coordFRec == hormiga[Matriz.nHormiga].fila-1 && coordCRec == hormiga[Matriz.nHormiga].columna+1)
-                    recurso.recolecta(recEncontr, coordFRec, coordCRec, hormiga);
+                    recurso.recolecta(coordFRec, coordCRec, hormiga);
                 else
                     moverPosiciones(hormiga);
             }
@@ -358,6 +360,15 @@ public class AgenteBase {
     public void moverPosiciones(AgenteBase[] hormiga){
         hormiga[Matriz.nHormiga].ultimaposF = hormiga[Matriz.nHormiga].fila;
         hormiga[Matriz.nHormiga].ultimaposC = hormiga[Matriz.nHormiga].columna;
+        move(hormiga);
+        //La posicion donde estaba anteriormente la hormiga se pone de color verde para no dejar un rastro
+        if(hormiga[Matriz.nHormiga].ultimaposF == hormiga[Matriz.nHormiga].fila && hormiga[Matriz.nHormiga].ultimaposC == hormiga[Matriz.nHormiga].columna)
+            ;
+        else
+            Matriz.bMatriz[hormiga[Matriz.nHormiga].ultimaposF][hormiga[Matriz.nHormiga].ultimaposC].setBackground(new java.awt.Color(0, 135, 6));
+    }
+
+    public void move(AgenteBase[] hormiga){
         if(hormiga[Matriz.nHormiga].posicion.equals("ARRIBA")){
             fila++;
             fila = rangoValido(fila);
@@ -407,8 +418,6 @@ public class AgenteBase {
             columna = rangoValido(columna);
             Matriz.bMatriz[hormiga[Matriz.nHormiga].fila][hormiga[Matriz.nHormiga].columna].setBackground(color);
         }
-        //La posicion donde estaba anteriormente la hormiga se pone de color verde para no dejar un rastro
-        Matriz.bMatriz[hormiga[Matriz.nHormiga].ultimaposF][hormiga[Matriz.nHormiga].ultimaposC].setBackground(new java.awt.Color(0, 135, 6));
     }
 
     public int rangoValido(int valor){ //No permite que ningun valor se salga de la matriz
@@ -441,6 +450,8 @@ public class AgenteBase {
                 else if(Matriz.bMatriz[hormiga[Matriz.nHormiga].inicioF][hormiga[Matriz.nHormiga].columna].getBackground().equals(Color.gray)){  
                     hormiga[Matriz.nHormiga].obs = true;
                     System.out.println("Hay obs");
+                    coordFOb = inicioF;
+                    coordCOb = inicioC;
                 }
             }
             inicioF++;
@@ -471,6 +482,8 @@ public class AgenteBase {
                 {  
                     hormiga[Matriz.nHormiga].obs = true;
                     System.out.println("Hay obs");
+                    coordFOb = inicioF;
+                    coordCOb = inicioC;
                     
                 }
             }
@@ -506,6 +519,8 @@ public class AgenteBase {
                 {  
                     hormiga[Matriz.nHormiga].obs = true;
                     System.out.println("Hay obs");
+                    coordFOb = inicioF;
+                    coordCOb = inicioC;
                     
                 }
             }
@@ -541,6 +556,8 @@ public class AgenteBase {
                 else if(Matriz.bMatriz[hormiga[Matriz.nHormiga].inicioF][hormiga[Matriz.nHormiga].inicioC].getBackground().equals(Color.gray))
                 {  
                     hormiga[Matriz.nHormiga].obs = true;
+                    coordFOb = inicioF;
+                    coordCOb = inicioC;
                     
                 }
             }
