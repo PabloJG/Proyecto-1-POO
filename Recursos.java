@@ -21,70 +21,68 @@ public class Recursos{
         coordC2 = columna+1;
         coordF2 = fila+1;
         vida = 10;
-        pintarRec();
     }
 
     public Recursos(){
 
     }
 
-    private void pintarRec(){
+    public void pintarRec(int i){
         boolean libre = false;
+        fila = (int) (Math.random()*(48-1)) + 1;
+        columna = (int) (Math.random()*(48-1)) + 1;
         while(libre != true){
-            if(Matriz.bMatriz[fila][columna].getBackground() != (Matriz.verde) && Matriz.bMatriz[fila][columna+1].getBackground() != (Matriz.verde) && Matriz.bMatriz[fila+1][columna+1].getBackground() != (Matriz.verde) && Matriz.bMatriz[fila+1][columna].getBackground() != (Matriz.verde)){
+            if(Matriz.bMatriz[fila][columna].getBackground() != (Matriz.verde) || Matriz.bMatriz[fila][columna+1].getBackground() != (Matriz.verde) || Matriz.bMatriz[fila+1][columna+1].getBackground() != (Matriz.verde) || Matriz.bMatriz[fila+1][columna].getBackground() != (Matriz.verde)){
                 fila = (int) (Math.random()*(48-1)) + 1;
                 columna = (int) (Math.random()*(48-1)) + 1;
             }
             else{
-                System.out.println("fila" + fila + "columna" + columna);
+                System.out.println("Rfila" + fila + "columna" + columna);
                 Matriz.bMatriz[fila][columna].setBackground(Color.MAGENTA);
                 Matriz.bMatriz[fila][columna+1].setBackground(Color.MAGENTA);
                 Matriz.bMatriz[fila+1][columna].setBackground(Color.MAGENTA);
                 Matriz.bMatriz[fila+1][columna+1].setBackground(Color.MAGENTA);
                 cantidadA++;
                 libre = true;
+                guardar(i);
             }
         } 
     }
     
-    public void guardar(){
-        rec[cantidadA].coordC1 = columna;
-        rec[cantidadA].coordF1 = fila;
-        rec[cantidadA].coordC2 = columna+1;
-        rec[cantidadA].coordF2 = fila+1;
+    public void guardar(int i){
+        rec[i].coordC1 = columna;
+        rec[i].coordF1 = fila;
+        rec[i].coordC2 = columna+1;
+        rec[i].coordF2 = fila+1;
     }
 
-    public void recolecta(Recursos[] reap, int F, int C, AgenteBase[] hormiga){
+    public void recolecta(int F, int C, AgenteBase[] hormiga){
         int i = 0;
         while(i != 10){
-            System.out.println("coordF" + reap[i].coordF1 + "coordC" + reap[i].coordC1 + "coordf1" + reap[i].coordF2 + "coordc2" + reap[i].coordC2);
-            System.out.println("vienen " + F + " " + C);
-            if(reap[i].coordC1 == C && reap[i].coordF1 == F)
-                reap[i].vida--;
-            else if(reap[i].coordC2 == C && reap[i].coordF2 == F)
-                reap[i].vida--;
-            else if(reap[i].coordC1 == C && reap[i].coordF2 == F)
-                reap[i].vida--;
-            else if(reap[i].coordC2 == C && reap[i].coordF1 == F)
-                reap[i].vida--;
-            System.out.println("vidas " + i + " " + reap[i].vida);
+            System.out.println("RcoordF" + rec[i].coordF1 + "coordC" + rec[i].coordC1 + "coordf1" + rec[i].coordF2 + "coordc2" + rec[i].coordC2);
+            System.out.println("Rvienen " + F + " " + C);
+            if(rec[i].coordC1 == C && rec[i].coordF1 == F)
+                rec[i].vida--;
+            else if(rec[i].coordC2 == C && rec[i].coordF2 == F)
+                rec[i].vida--;
+            else if(rec[i].coordC1 == C && rec[i].coordF2 == F)
+                rec[i].vida--;
+            else if(rec[i].coordC2 == C && rec[i].coordF1 == F)
+                rec[i].vida--;
+            System.out.println("vidasR " + i + " " + rec[i].vida);
             i++;
         }
         hormiga[Matriz.nHormiga].llevaR = true;
         destruir();
     }
     public void respawn(){
-        System.out.println("nuevo" + cantidadA);
-        pintarRec();
+        System.out.println("Rnuevo" + cantidadA);
+        pintarRec(elim);
         rec[elim].vida = 10;
         System.out.println(rec[elim].vida);
-        rec[elim].coordC1 = columna;
-        rec[elim].coordF1 = fila;
-        rec[elim].coordC2 = columna+1;
-        rec[elim].coordF2 = fila+1;
         cantidadA++;
-        System.out.println("nuevas " + "coordF" + rec[elim].coordF1 + "coordC" + rec[elim].coordC1 + "coordf1" + rec[elim].coordF2 + "coordc2" + rec[elim].coordC2);
-        System.out.println(cantidadA);
+        //System.out.println("nuevas " + "coordF" + rec[elim].coordF1 + "coordC" + rec[elim].coordC1 + "coordf1" + rec[elim].coordF2 + "coordc2" + rec[elim].coordC2);
+        //System.out.println(cantidadA);
 
     }
 
@@ -93,14 +91,12 @@ public class Recursos{
         while(i != 10){
             if(rec[i].vida <= 0){
                 cantidadA--;
-                System.out.println("entro");
+                System.out.println("Rentro");
                 Matriz.bMatriz[rec[i].coordF1][rec[i].coordC1].setBackground(Matriz.verde);
                 Matriz.bMatriz[rec[i].coordF2][rec[i].coordC2].setBackground(Matriz.verde);
                 Matriz.bMatriz[rec[i].coordF1][rec[i].coordC2].setBackground(Matriz.verde);
                 Matriz.bMatriz[rec[i].coordF2][rec[i].coordC1].setBackground(Matriz.verde);
                 elim = i;
-                fila = (int) (Math.random()*(48-1)) + 1;
-                columna = (int) (Math.random()*(48-1)) + 1;
                 respawn();
             }
             i++;
